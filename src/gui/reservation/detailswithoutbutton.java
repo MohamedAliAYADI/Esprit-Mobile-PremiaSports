@@ -34,7 +34,7 @@ public class detailswithoutbutton extends Container{
            btn1.addActionListener((evt) -> {
            
            Dialog.show("Voulez vous supprimer cette reservation ", "", "oui", null);
-           ts.deleteReservation(p);
+           ts.DeleteReservation(p);
         });
     Button btn3 = new Button("Modifier la reservation");
            btn3.addActionListener((evt) -> {

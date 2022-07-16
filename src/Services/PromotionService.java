@@ -24,7 +24,7 @@ import model.Promotion;
  * @author bouss
  */
 public class PromotionService {
-
+public String result="";
     private String promotionPrefix = "/promotion";
 
     static PromotionService instance = null;
@@ -132,4 +132,51 @@ public List<Promotion> fetchPromotion() {
 
         return promotions;
     }
+    
+    
+    public String DeleteReservation(Promotion P) {
+         String url = Statitics.BASE_URL + promotionPrefix + "/delete";
+      
+
+        req.setUrl(url);// Insertion de l'URL de notre demande de connexion
+        System.out.println(url);
+
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+
+                try {
+                    String data = new String(req.getResponseData());
+                    JSONParser j = new JSONParser();
+                    Map<String, Object> tasksListJson;
+                    tasksListJson = j.parseJSON(new CharArrayReader(data.toCharArray()));
+                       result = (String) tasksListJson.get("body");
+
+                } catch (IOException ex) {
+                    ex.getMessage();
+                }
+                req.removeResponseListener(this);
+
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return result;
+    }
+    public boolean UpdateReservation(Promotion P) {
+        
+        String url = Statitics.BASE_URL + promotionPrefix + "/update";
+        
+        req.setUrl(url);// Insertion de l'URL de notre demande de connexion
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+    
+    
 }

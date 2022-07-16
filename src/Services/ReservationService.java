@@ -24,7 +24,7 @@ import model.Reservation;
  * @author bouss
  */
 public class ReservationService {
-
+public String result="";
     private String reservationPrefix = "/Reservation";
 
     static ReservationService instance = null;
@@ -134,23 +134,40 @@ public List<Reservation> fetchReservation() {
 
         return reservations;
     }
-        public boolean deleteReservation(Reservation R) {
+ public String DeleteReservation(Reservation R) {
+         String url = Statitics.BASE_URL + reservationPrefix + "/delete";
+      
 
-        //build URL
-        String addURL = Statitics.BASE_URL + reservationPrefix + "/delete";
+        req.setUrl(url);// Insertion de l'URL de notre demande de connexion
+        System.out.println(url);
 
-        //2
-        req.setUrl(addURL);
-
-        //3
-      req.addResponseListener(new ActionListener<NetworkEvent>() {
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
+
+                try {
+                    String data = new String(req.getResponseData());
+                    JSONParser j = new JSONParser();
+                    Map<String, Object> tasksListJson;
+                    tasksListJson = j.parseJSON(new CharArrayReader(data.toCharArray()));
+                       result = (String) tasksListJson.get("body");
+
+                } catch (IOException ex) {
+                    ex.getMessage();
+                }
                 req.removeResponseListener(this);
+
             }
         });
-
-        //5
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return result;
+    }
+        
+  public boolean UpdateReservation(Reservation R) {
+        
+        String url = Statitics.BASE_URL + reservationPrefix + "/update";
+        
+        req.setUrl(url);// Insertion de l'URL de notre demande de connexion
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -158,25 +175,10 @@ public List<Reservation> fetchReservation() {
                 req.removeResponseListener(this);
             }
         });
-
         NetworkManager.getInstance().addToQueueAndWait(req);
-
         return resultOK;
     }
-        
-//  public boolean UpdateReservation(Reservation R) {
-//        
-//        String addURL = Statitics.BASE_URL + reservationPrefix + "/update" ;
-//
-//        req.setUrl(addURL);
-//        req.addResponseListener(new ActionListener<NetworkEvent>() {
-//            @Override
-//            public void actionPerformed(NetworkEvent evt) {
-//                resultOK = req.getResponseCode() == 200;
-//                req.removeResponseListener(this);
-//            }
-//        });
-//        NetworkManager.getInstance().addToQueueAndWait(req);
-//        return resultOK;
-//    }
+
 }
+
+   

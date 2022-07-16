@@ -38,21 +38,9 @@ public class Home extends Form {
         });
         getToolbar().addMaterialCommandToSideMenu("Liste des Reservation", FontImage.MATERIAL_SELECT_ALL, e -> new ListReservation(theme).show());
 
-        ReservationService rs = new ReservationService();
-
-        Reservation R = new Reservation();
-        ReservationService r = new ReservationService();
-       // rs.UpdateReservation(R);
-
         this.getToolbar().addCommandToLeftSideMenu("Liste des Promotion", null, (evt) -> {
             PromotionService ps = new PromotionService();
             this.add(new SpanLabel(ps.fetchPromotion().toString()));
-        });
-
-        this.getToolbar().addCommandToLeftSideMenu("Delete Reservation", null, (evt) -> {
-
-            ReservationService s = new ReservationService();
-
         });
 
         this.getToolbar().addCommandToOverflowMenu("Settings", null, (evt) -> {

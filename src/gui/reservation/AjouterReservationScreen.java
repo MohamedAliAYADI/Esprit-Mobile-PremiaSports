@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Promotion;
 import model.Reservation;
-import service.PromotionServices;
+
 
 /**
  *
