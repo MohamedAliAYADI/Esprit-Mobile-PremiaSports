@@ -43,6 +43,30 @@ public class Home extends Form {
             this.add(new SpanLabel(ps.fetchPromotion().toString()));
         });
 
+                this.getToolbar().addCommandToLeftSideMenu("Ajouter Reservation", null, (evt) -> {
+            new AddReservation(theme).show();
+        });
+
+        this.getToolbar().addCommandToLeftSideMenu("Liste de reservation", null, (evt) -> {
+
+            new ListeReservation(theme).show();
+        });
+
+        this.getToolbar().addCommandToLeftSideMenu("Add Notes Coach", null, (evt) -> {
+
+            new AddCoachNotes(theme).show();
+        });
+        
+        this.getToolbar().addCommandToLeftSideMenu("Liste Notes Coach", null, (evt) -> {
+
+            new ListCoachNotes(theme).show();
+        });
+        
+        this.getToolbar().addCommandToLeftSideMenu("General Chat", null, (evt) -> {
+
+            new GeneralChat(theme).show();
+        });
+
         this.getToolbar().addCommandToOverflowMenu("Settings", null, (evt) -> {
         });
         this.getToolbar().addCommandToOverflowMenu("Logout", null, (evt) -> {
